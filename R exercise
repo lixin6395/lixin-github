@@ -1,0 +1,17 @@
+### exercise from http://geoscripting-wur.github.io/
+
+getwd()
+## Download the data
+download.file(url='https://raw.githubusercontent.com/GeoScripting-WUR/IntroToRaster/gh-pages/data/tura.zip', destfile='tura.zip', method='auto')
+unzip(zipfile='tura.zip')
+## Retrieve the content of the tura sub-directory
+list <- list.files(path='tura/', full.names=TRUE)
+plot(raster(list[1]))
+turaStack <- stack(list);turaStack
+writeRaster(x=turaStack, filename='turaStack.grd', datatype='INT2S')
+ndvCalc <- function(x) {
+  ndvi <- (x[[4]] - x[[3]]) / (x[[4]] + x[[3]])
+  return(ndvi)
+}
+ndvi2 <- calc(x=gewata, fun=ndvCalc)
+plot(ndvi)
